@@ -5,15 +5,8 @@ from PortfolioSimulator import Show_Portfolio_Simulator
 
 def show_navbar():
     # Navbar without the css_class parameter
-    page = st_navbar(["Portfolio", "Stock Dashboard", "Examples"])
+    page = st_navbar(["Portfolio", "Stock Dashboard"])
     if page == 'Stock Dashboard':
         show_Stock_Dashboard()
     elif page == 'Portfolio':
         Show_Portfolio_Simulator()
-    elif page == 'Examples':
-        st.write("Examples")
-
-
-
-
-
