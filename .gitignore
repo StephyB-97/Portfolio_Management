@@ -1,0 +1,8 @@
+# Ignore environment variable files
+.env
+
+# Ignore Git configuration file
+.gitignore
+
+# Ignore JSON files (add specific ones if needed)
+portfolio-management-project-7aa5fa7ab83d.json
