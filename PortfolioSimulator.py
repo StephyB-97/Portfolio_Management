@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def Show_Portfolio_Simulator():
     st.title("Investment Portfolio Dashboard")
 
@@ -139,7 +140,8 @@ def Show_Portfolio_Simulator():
                     bench_dev = pd.Series()
 
                 # Tabs to show charts in percentage or USD
-                percentage_tab, usd_tabs, portfolio_composition = st.tabs(["Percentage Chart", "USD Chart", "Portfolio Composition"])
+                percentage_tab, usd_tabs, portfolio_composition = st.tabs(
+                    ["Percentage Chart", "USD Chart", "Portfolio Composition"])
                 with percentage_tab:
                     # Original Chart (Percentage-based)
                     st.subheader("Portfolio Performance vs. S&P 500 (Percentage)")
@@ -171,8 +173,26 @@ def Show_Portfolio_Simulator():
                     st.subheader("Benchmark Risk:")
                     bench_risk = bench_ret.std()
                     st.write(bench_risk)
+
                 with portfolio_composition:
                     st.subheader("Portfolio Composition:")
-                    fig, ax = plt.subplots(facecolor='#121212')
-                    ax.pie(weights, labels=tickers, autopct='%1.1f%%', textprops={'color': 'white'})
-                    st.pyplot(fig)
+
+                    # Aggregate portfolio data by ticker
+                    portfolio_df = pd.DataFrame(st.session_state.portfolio)
+                    aggregated_df = portfolio_df.groupby('ticker').agg({
+                        'amount': 'sum'
+                    }).reset_index()
+
+                    # Extract labels and sizes
+                    labels = aggregated_df['ticker']
+                    sizes = aggregated_df['amount']
+
+                    # Create columns within the tab
+                    col1, col2 = st.columns([1, 2])  # Adjust column width ratios as needed
+
+                    # Left column: Pie chart
+                    with col1:
+                        fig, ax = plt.subplots(facecolor='#121212')
+                        ax.pie(weights, labels=tickers, autopct='%1.1f%%', textprops={'color': 'white'})
+                        st.pyplot(fig)
+
