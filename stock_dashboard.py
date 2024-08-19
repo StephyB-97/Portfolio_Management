@@ -67,8 +67,7 @@ def show_Stock_Dashboard():
             1) - 1  # calculates adjusted close price divided by previous adjusted close
         data2.dropna(inplace=True)  # omits showing the NA
         st.write(data2)  # Prints it out
-        annual_return = data[
-                            '% Change'].mean() * 252 * 100  # Calculates annual return based on the average daily percentage change
+        annual_return = data['% Change'].mean() * 252 * 100  # Calculates annual return based on the average daily percentage change
         st.write("Anual Return is ", annual_return, "%")
         stdev = np.std(data2["% Change"]) * np.sqrt(252)  # Calculates how much a price varies over time
         st.write("Standard Deviation is ", stdev * 100, "%")

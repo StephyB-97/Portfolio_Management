@@ -113,16 +113,20 @@ def Show_Portfolio_Simulator():
                 st.subheader("Portfolio Performance")
                 st.write(performance_df)
 
-                # Calculate and display overall portfolio performance
-                st.subheader("Overall Portfolio Performance")
-                total_investment = performance_df['Amount Invested ($)'].sum()
-                total_current_value = performance_df['Current Value ($)'].sum()
-                total_gains_losses = total_current_value - total_investment
-                total_gains_losses_pct = (total_gains_losses / total_investment) * 100
+                # Create two columns for display
+                col1, col2 = st.columns(2)
 
-                st.write(f"Total Amount Invested: ${total_investment:.2f}")
-                st.write(f"Total Current Value: ${total_current_value:.2f}")
-                st.write(f"Total Gains/Losses: ${total_gains_losses:.2f} ({total_gains_losses_pct:.2f}%)")
+                # Left column: Overall portfolio performance
+                with col1:
+                    st.subheader("Overall Portfolio Performance")
+                    total_investment = performance_df['Amount Invested ($)'].sum()
+                    total_current_value = performance_df['Current Value ($)'].sum()
+                    total_gains_losses = total_current_value - total_investment
+                    total_gains_losses_pct = (total_gains_losses / total_investment) * 100
+
+                    st.write(f"Total Amount Invested: ${total_investment:.2f}")
+                    st.write(f"Total Current Value: ${total_current_value:.2f}")
+                    st.write(f"Total Gains/Losses: ${total_gains_losses:.2f} ({total_gains_losses_pct:.2f}%)")
 
                 # Benchmark comparison
                 try:
@@ -134,23 +138,41 @@ def Show_Portfolio_Simulator():
                     st.warning(f"Unable to fetch S&P 500 data: {e}")
                     bench_dev = pd.Series()
 
-                # Combine portfolio and benchmark data for plotting
-                tog = pd.concat([bench_dev, cumul_ret.sum(axis=1)], axis=1)
-                tog.columns = ['S&P500 Performance', 'Portfolio Performance']
-
-                if not tog.empty:
-                    st.subheader("Portfolio vs. Index Development")
+                # Tabs to show charts in percentage or USD
+                percentage_tab, usd_tabs, portfolio_composition = st.tabs(["Percentage Chart", "USD Chart", "Portfolio Composition"])
+                with percentage_tab:
+                    # Original Chart (Percentage-based)
+                    st.subheader("Portfolio Performance vs. S&P 500 (Percentage)")
+                    tog = pd.concat([bench_dev, cumul_ret.sum(axis=1)], axis=1)
+                    tog.columns = ['S&P500 Performance (%)', 'Portfolio Performance (%)']
                     st.line_chart(tog)
 
-                st.subheader("Portfolio Risk:")
-                pf_std = np.sqrt((weights @ ret_df.cov() @ weights))
-                st.write(pf_std)
+                # Convert cumulative returns to USD
+                portfolio_value_in_usd = total_investment * (cumul_ret.sum(axis=1) + 1)
+                sp500_value_in_usd = total_investment * (bench_dev + 1)
 
-                st.subheader("Benchmark Risk:")
-                bench_risk = bench_ret.std()
-                st.write(bench_risk)
+                # Create a DataFrame with the USD values for both the portfolio and S&P 500
+                usd_value_df = pd.DataFrame({
+                    'Portfolio Value ($)': portfolio_value_in_usd,
+                    'S&P500 Value ($)': sp500_value_in_usd
+                })
 
-                st.subheader("Portfolio Composition:")
-                fig, ax = plt.subplots(facecolor='#121212')
-                ax.pie(weights, labels=tickers, autopct='%1.1f%%', textprops={'color': 'white'})
-                st.pyplot(fig)
+                with usd_tabs:
+                    # New Chart (USD-based)
+                    st.subheader("Portfolio Performance vs. S&P 500 in USD")
+                    st.line_chart(usd_value_df)
+
+                # Right column: Portfolio and benchmark risks
+                with col2:
+                    st.subheader("Portfolio Risk:")
+                    pf_std = np.sqrt((weights @ ret_df.cov() @ weights))
+                    st.write(pf_std)
+
+                    st.subheader("Benchmark Risk:")
+                    bench_risk = bench_ret.std()
+                    st.write(bench_risk)
+                with portfolio_composition:
+                    st.subheader("Portfolio Composition:")
+                    fig, ax = plt.subplots(facecolor='#121212')
+                    ax.pie(weights, labels=tickers, autopct='%1.1f%%', textprops={'color': 'white'})
+                    st.pyplot(fig)

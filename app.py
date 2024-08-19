@@ -9,6 +9,7 @@ from navbar import show_navbar
 setup_database()
 
 
+
 def login_screen():
     st.sidebar.title("Login")
     username = st.sidebar.text_input("Username")
