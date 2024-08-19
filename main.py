@@ -9,7 +9,7 @@ load_dotenv()
 cred_path = os.getenv('FIREBASE_CREDENTIALS_PATH')
 # Initialize Firebase
 cred = credentials.Certificate(cred_path)
-#firebase_admin.initialize_app(cred)    # when run locally, comment this section out
+firebase_admin.initialize_app(cred)    # when run locally, comment this section out
 
 # Predefined credentials for testing
 def get_test_credentials():
