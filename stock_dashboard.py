@@ -3,11 +3,14 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 import plotly.express as px
-from pandas import DataFrame
 import requests
-import json
+from dotenv import load_dotenv
+import os
 
-API_KEY = '60d0e31e3d254620a59ca513bec82984'
+load_dotenv()
+
+API_KEY = os.getenv('API_KEY')
+
 
 
 def fetch_news(api_key, ticker):
@@ -104,10 +107,3 @@ def show_Stock_Dashboard():
                 st.write("---")  # Separator line
         else:
             st.write("No news data available.")
-
-
-
-
-
-
-
