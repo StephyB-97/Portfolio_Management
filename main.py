@@ -7,9 +7,23 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
+
+# Firebase configuration
+firebase_config = {
+    "type": st.secrets["FIREBASE_TYPE"],
+    "project_id": st.secrets["FIREBASE_PROJECT_ID"],
+    "private_key_id": st.secrets["FIREBASE_PRIVATE_KEY_ID"],
+    "private_key": st.secrets["FIREBASE_PRIVATE_KEY"].replace('\\n', '\n'),  # Handle newlines in private key
+    "client_email": st.secrets["FIREBASE_CLIENT_EMAIL"],
+    "client_id": st.secrets["FIREBASE_CLIENT_ID"],
+    "auth_uri": st.secrets["FIREBASE_AUTH_URI"],
+    "token_uri": st.secrets["FIREBASE_TOKEN_URI"],
+    "auth_provider_x509_cert_url": st.secrets["FIREBASE_AUTH_PROVIDER_X509_CERT_URL"],
+    "client_x509_cert_url": st.secrets["FIREBASE_CLIENT_X509_CERT_URL"]
+}
 cred_path = os.getenv('FIREBASE_CREDENTIALS_PATH')
 # Initialize Firebase
-cred = credentials.Certificate(cred_path)
+cred = credentials.Certificate(firebase_config)
 firebase_admin.initialize_app(cred)    # when run locally, comment this section out
 
 # Predefined credentials for testing
