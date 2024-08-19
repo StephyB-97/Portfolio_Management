@@ -60,8 +60,9 @@ def register_screen():
         if new_username and email and new_password:  # Checks if fields are not empty
             try:
                 user = auth.create_user(email=email, password=new_password, uid=new_username)
-                st.success("Registered successfully! Please login")
+                st.success("Registered successfully! Redirecting to login page...")
                 st.session_state['show_register'] = False
+
             except Exception as e:
                 st.error(f"Registration failed: {e}")
         else:
