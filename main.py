@@ -5,11 +5,12 @@ from navbar import show_navbar
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 cred_path = os.getenv('FIREBASE_CREDENTIALS_PATH')
 # Initialize Firebase
 cred = credentials.Certificate(cred_path)
-#firebase_admin.initialize_app(cred)    # when run locally, comment this section out
+firebase_admin.initialize_app(cred)    # when run locally, comment this section out
 
 # Predefined credentials for testing
 def get_test_credentials():
@@ -60,8 +61,9 @@ def register_screen():
         if new_username and email and new_password:  # Checks if fields are not empty
             try:
                 user = auth.create_user(email=email, password=new_password, uid=new_username)
-                st.success("Registered successfully! Please login")
+                st.success("Registered successfully! Redirecting to login page...")
                 st.session_state['show_register'] = False
+
             except Exception as e:
                 st.error(f"Registration failed: {e}")
         else:
