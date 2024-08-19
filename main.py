@@ -5,6 +5,7 @@ from navbar import show_navbar
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 cred_path = os.getenv('FIREBASE_CREDENTIALS_PATH')
 # Initialize Firebase
