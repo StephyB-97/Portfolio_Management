@@ -5,26 +5,22 @@ from navbar import show_navbar
 import os
 from dotenv import load_dotenv
 
+# load_dotenv()
 
-#load_dotenv()
-# Firebase configuration    (necessary)
-firebase_config = {
-    "type": st.secrets["FIREBASE_TYPE"],
-    "project_id": st.secrets["FIREBASE_PROJECT_ID"],
-    "private_key_id": st.secrets["FIREBASE_PRIVATE_KEY_ID"],
-    "private_key": st.secrets["FIREBASE_PRIVATE_KEY"].replace('\\n', '\n'),  # Handle newlines in private key
-    "client_email": st.secrets["FIREBASE_CLIENT_EMAIL"],
-    "client_id": st.secrets["FIREBASE_CLIENT_ID"],
-    "auth_uri": st.secrets["FIREBASE_AUTH_URI"],
-    "token_uri": st.secrets["FIREBASE_TOKEN_URI"],
-    "auth_provider_x509_cert_url": st.secrets["FIREBASE_AUTH_PROVIDER_X509_CERT_URL"],
-    "client_x509_cert_url": st.secrets["FIREBASE_CLIENT_X509_CERT_URL"],
-    "universe_domain": st.secrets["FIREBASE_UNIVERSE_DOMAIN"]
-}
 
-# Initialize Firebase Admin SDK
-cred = credentials.Certificate(firebase_config)
-firebase_admin.initialize_app(cred)   # when run locally, comment this section out
+# Convert Streamlit secrets to a dictionary
+firebase_credentials = dict(st.secrets["FIREBASE"])
+
+# Replace escaped newlines in the private key with actual newlines
+firebase_credentials["private_key"] = firebase_credentials["PRIVATE_KEY"].replace("\\n", "\n")
+
+
+# Create the credentials object using the corrected credentials
+cred = credentials.Certificate(firebase_credentials)
+# Initialize the Firebase app
+firebase_admin.initialize_app(cred)  # Comment this out when running locally
+
+
 
 # Predefined credentials for testing
 def get_test_credentials():
@@ -32,6 +28,7 @@ def get_test_credentials():
     email = 'test@test.com'
     password = 'testpassword'
     return email, password
+
 
 def login_screen():
     st.title("Login")
@@ -54,7 +51,7 @@ def login_screen():
 
             except:
                 st.error("Invalid credentials or user does not exist")
-            #st.rerun()
+            # st.rerun()
         else:
             st.error("Email and password are required")
 
@@ -63,6 +60,7 @@ def login_screen():
     if st.button("New User"):
         st.session_state['show_register'] = True
         st.rerun()
+
 
 def register_screen():
     st.title("Register")
@@ -84,6 +82,7 @@ def register_screen():
 
     st.button("Register", on_click=handle_register)
 
+
 def main():
     if 'logged_in' not in st.session_state:
         st.session_state['logged_in'] = False
@@ -98,6 +97,7 @@ def main():
             register_screen()
         else:
             login_screen()
+
 
 if __name__ == "__main__":
     main()
