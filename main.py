@@ -8,12 +8,20 @@ from dotenv import load_dotenv
 # load_dotenv()
 
 
-# Convert Streamlit secrets to a dictionary
-firebase_credentials = dict(st.secrets["FIREBASE"])
-
-# Replace escaped newlines in the private key with actual newlines
-firebase_credentials["private_key"] = firebase_credentials["PRIVATE_KEY"].replace("\\n", "\n")
-
+# Convert Streamlit secrets to a dictionary forthe credentials reading
+firebase_credentials = {
+  "type": st.secrets["FIREBASE"]["TYPE"],
+  "project_id": st.secrets["FIREBASE"]["PROJECT_ID"],
+  "private_key_id": st.secrets["FIREBASE"]["PRIVATE_KEY_ID"],
+  "private_key": st.secrets["FIREBASE"]["PRIVATE_KEY"],
+  "client_email": st.secrets["FIREBASE"]["CLIENT_EMAIL"],
+  "client_id": st.secrets["FIREBASE"]["CLIENT_ID"],
+  "auth_uri": st.secrets["FIREBASE"]["AUTH_URI"],
+  "token_uri": st.secrets["FIREBASE"]["TOKEN_URI"],
+  "auth_provider_x509_cert_url": st.secrets["FIREBASE"]["AUTH_PROVIDER_X509_CERT_URL"],
+  "client_x509_cert_url": st.secrets["FIREBASE"]["CLIENT_X509_CERT_URL"],
+  "universe_domain": st.secrets["FIREBASE"]["UNIVERSE_DOMAIN"]
+}
 
 # Create the credentials object using the corrected credentials
 cred = credentials.Certificate(firebase_credentials)
