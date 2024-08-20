@@ -29,7 +29,6 @@ firebase_admin.initialize_app(cred)   # when run locally, comment this section o
 # Predefined credentials for testing
 def get_test_credentials():
     # This function should return existing credentials for testing.
-    # Replace 'test@example.com' and 'testpassword' with actual test credentials from Firebase.
     email = 'test@test.com'
     password = 'testpassword'
     return email, password
