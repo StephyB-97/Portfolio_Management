@@ -6,8 +6,7 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv()
-
+#load_dotenv()
 # Firebase configuration
 firebase_config = {
     "type": st.secrets["FIREBASE_TYPE"],
@@ -22,7 +21,7 @@ firebase_config = {
     "client_x509_cert_url": st.secrets["FIREBASE_CLIENT_X509_CERT_URL"]
 }
 cred_path = os.getenv('FIREBASE_CREDENTIALS_PATH')
-# Initialize Firebase
+# Initialize Firebase Admin SDK
 cred = credentials.Certificate(firebase_config)
 firebase_admin.initialize_app(cred)    # when run locally, comment this section out
 
