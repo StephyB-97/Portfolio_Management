@@ -5,32 +5,29 @@ from navbar import show_navbar
 import os
 from dotenv import load_dotenv
 
-# load_dotenv()
+# Load environment variables from the .env file
+load_dotenv()
 
-
-# Convert Streamlit secrets to a dictionary forthe credentials reading
-firebase_credentials = {
-  "type": st.secrets["FIREBASE"]["TYPE"],
-  "project_id": st.secrets["FIREBASE"]["PROJECT_ID"],
-  "private_key_id": st.secrets["FIREBASE"]["PRIVATE_KEY_ID"],
-  "private_key": st.secrets["FIREBASE"]["PRIVATE_KEY"],
-  "client_email": st.secrets["FIREBASE"]["CLIENT_EMAIL"],
-  "client_id": st.secrets["FIREBASE"]["CLIENT_ID"],
-  "auth_uri": st.secrets["FIREBASE"]["AUTH_URI"],
-  "token_uri": st.secrets["FIREBASE"]["TOKEN_URI"],
-  "auth_provider_x509_cert_url": st.secrets["FIREBASE"]["AUTH_PROVIDER_X509_CERT_URL"],
-  "client_x509_cert_url": st.secrets["FIREBASE"]["CLIENT_X509_CERT_URL"],
-  "universe_domain": st.secrets["FIREBASE"]["UNIVERSE_DOMAIN"]
-}
-
-# Function to initialize the Firebase app
+# Initialize Firebase only if it hasn't been initialized yet
 def initialize_firebase():
     if not firebase_admin._apps:
-        cred = credentials.Certificate(firebase_credentials)
+        cred = credentials.Certificate({
+            "type": os.getenv("FIREBASE_TYPE"),
+            "project_id": os.getenv("FIREBASE_PROJECT_ID"),
+            "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
+            "private_key": os.getenv("FIREBASE_PRIVATE_KEY").replace('\\n', '\n'),
+            "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
+            "client_id": os.getenv("FIREBASE_CLIENT_ID"),
+            "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
+            "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
+            "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"),
+            "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL")
+        })
         firebase_admin.initialize_app(cred)
 
-# Call the initialization function
+# Call this function when your application starts
 initialize_firebase()
+
 
 # Predefined credentials for testing
 def get_test_credentials():
