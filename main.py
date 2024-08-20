@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 
 #load_dotenv()
-# Firebase configuration
+# Firebase configuration    (necessary)
 firebase_config = {
     "type": st.secrets["FIREBASE_TYPE"],
     "project_id": st.secrets["FIREBASE_PROJECT_ID"],
