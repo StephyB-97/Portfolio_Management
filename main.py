@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 
 #load_dotenv()
-# Firebase configuration
+# Firebase configuration    (necessary)
 firebase_config = {
     "type": st.secrets["FIREBASE_TYPE"],
     "project_id": st.secrets["FIREBASE_PROJECT_ID"],
@@ -18,17 +18,17 @@ firebase_config = {
     "auth_uri": st.secrets["FIREBASE_AUTH_URI"],
     "token_uri": st.secrets["FIREBASE_TOKEN_URI"],
     "auth_provider_x509_cert_url": st.secrets["FIREBASE_AUTH_PROVIDER_X509_CERT_URL"],
-    "client_x509_cert_url": st.secrets["FIREBASE_CLIENT_X509_CERT_URL"]
+    "client_x509_cert_url": st.secrets["FIREBASE_CLIENT_X509_CERT_URL"],
+    "universe_domain": st.secrets["FIREBASE_UNIVERSE_DOMAIN"]
 }
-cred_path = os.getenv('FIREBASE_CREDENTIALS_PATH')
+
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate(firebase_config)
-firebase_admin.initialize_app(cred)    # when run locally, comment this section out
+firebase_admin.initialize_app(cred)   # when run locally, comment this section out
 
 # Predefined credentials for testing
 def get_test_credentials():
     # This function should return existing credentials for testing.
-    # Replace 'test@example.com' and 'testpassword' with actual test credentials from Firebase.
     email = 'test@test.com'
     password = 'testpassword'
     return email, password
