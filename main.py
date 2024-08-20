@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv()
+#load_dotenv()
 # Firebase configuration
 firebase_config = {
     "type": st.secrets["FIREBASE_TYPE"],
@@ -18,7 +18,8 @@ firebase_config = {
     "auth_uri": st.secrets["FIREBASE_AUTH_URI"],
     "token_uri": st.secrets["FIREBASE_TOKEN_URI"],
     "auth_provider_x509_cert_url": st.secrets["FIREBASE_AUTH_PROVIDER_X509_CERT_URL"],
-    "client_x509_cert_url": st.secrets["FIREBASE_CLIENT_X509_CERT_URL"]
+    "client_x509_cert_url": st.secrets["FIREBASE_CLIENT_X509_CERT_URL"],
+    "universe_domain": st.secrets["FIREBASE_UNIVERSE_DOMAIN"]
 }
 
 # Initialize Firebase Admin SDK
