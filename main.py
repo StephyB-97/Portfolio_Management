@@ -23,12 +23,15 @@ firebase_credentials = {
   "universe_domain": st.secrets["FIREBASE"]["UNIVERSE_DOMAIN"]
 }
 
-# Create the credentials object using the corrected credentials
-cred = credentials.Certificate(firebase_credentials)
-# Initialize the Firebase app
-firebase_admin.initialize_app(cred)  # Comment this out when running locally
+# Function to initialize the Firebase app
+# Function to initialize the Firebase app
+def initialize_firebase():
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(firebase_credentials)
+        firebase_admin.initialize_app(cred)
 
-
+# Call the initialization function
+initialize_firebase()
 
 # Predefined credentials for testing
 def get_test_credentials():
