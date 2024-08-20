@@ -6,3 +6,5 @@
 
 # Ignore JSON files (add specific ones if needed)
 portfolio-management-project-7aa5fa7ab83d.json
+
+.streamlit
