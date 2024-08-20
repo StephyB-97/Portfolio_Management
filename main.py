@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 # load_dotenv()
 
 
-# Convert Streamlit secrets to a dictionary
+# Convert Streamlit secrets to a dictionary forthe credentials reading
 firebase_credentials = {
   "type": st.secrets["FIREBASE"]["TYPE"],
   "project_id": st.secrets["FIREBASE"]["PROJECT_ID"],
