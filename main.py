@@ -24,7 +24,6 @@ firebase_credentials = {
 }
 
 # Function to initialize the Firebase app
-# Function to initialize the Firebase app
 def initialize_firebase():
     if not firebase_admin._apps:
         cred = credentials.Certificate(firebase_credentials)
