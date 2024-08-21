@@ -2,9 +2,6 @@ import streamlit as st
 import firebase_admin
 from firebase_admin import credentials, auth
 from navbar import show_navbar
-import toml
-import os
-from dotenv import load_dotenv
 
 # Convert Streamlit secrets to a dictionary forthe credentials reading
 firebase_credentials = {
@@ -21,17 +18,14 @@ firebase_credentials = {
     "universe_domain": st.secrets["FIREBASE"]["universe_domain"]
 }
 
-
 # Function to initialize the Firebase app
 def initialize_firebase():
     if not firebase_admin._apps:
         cred = credentials.Certificate(firebase_credentials)
         firebase_admin.initialize_app(cred)
 
-
 # Call the initialization function
 initialize_firebase()
-
 
 # Predefined credentials for testing
 def get_test_credentials():
@@ -39,7 +33,6 @@ def get_test_credentials():
     email = 'test@test.com'
     password = 'testpassword'
     return email, password
-
 
 def login_screen():
     st.title("Login")

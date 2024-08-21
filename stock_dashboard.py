@@ -4,14 +4,8 @@ import numpy as np
 import yfinance as yf
 import plotly.express as px
 import requests
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-
-API_KEY = os.getenv('API_KEY')
-
-
+API_KEY = st.secrets["NEWS"]['API_KEY']
 
 def fetch_news(api_key, ticker):
     url = f"https://newsapi.org/v2/everything?q={ticker}&apiKey={api_key}"
