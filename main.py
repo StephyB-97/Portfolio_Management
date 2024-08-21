@@ -2,30 +2,34 @@ import streamlit as st
 import firebase_admin
 from firebase_admin import credentials, auth
 from navbar import show_navbar
+import toml
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from the .env file
-load_dotenv()
+# Convert Streamlit secrets to a dictionary forthe credentials reading
+firebase_credentials = {
+    "type": st.secrets["FIREBASE"]["type"],
+    "project_id": st.secrets["FIREBASE"]["project_id"],
+    "private_key_id": st.secrets["FIREBASE"]["private_key_id"],
+    "private_key": st.secrets["FIREBASE"]["private_key"],
+    "client_email": st.secrets["FIREBASE"]["client_email"],
+    "client_id": st.secrets["FIREBASE"]["client_id"],
+    "auth_uri": st.secrets["FIREBASE"]["auth_uri"],
+    "token_uri": st.secrets["FIREBASE"]["token_uri"],
+    "auth_provider_x509_cert_url": st.secrets["FIREBASE"]["auth_provider_x509_cert_url"],
+    "client_x509_cert_url": st.secrets["FIREBASE"]["client_x509_cert_url"],
+    "universe_domain": st.secrets["FIREBASE"]["universe_domain"]
+}
 
-# Initialize Firebase only if it hasn't been initialized yet
+
+# Function to initialize the Firebase app
 def initialize_firebase():
     if not firebase_admin._apps:
-        cred = credentials.Certificate({
-            "type": os.getenv("FIREBASE_TYPE"),
-            "project_id": os.getenv("FIREBASE_PROJECT_ID"),
-            "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
-            "private_key": os.getenv("FIREBASE_PRIVATE_KEY").replace('\\n', '\n'),
-            "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
-            "client_id": os.getenv("FIREBASE_CLIENT_ID"),
-            "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
-            "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
-            "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"),
-            "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL")
-        })
+        cred = credentials.Certificate(firebase_credentials)
         firebase_admin.initialize_app(cred)
 
-# Call this function when your application starts
+
+# Call the initialization function
 initialize_firebase()
 
 
