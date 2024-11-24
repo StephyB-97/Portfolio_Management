@@ -1,3 +1,4 @@
+Live demo: https://sb-portfolio-management.streamlit.app
 # Portfolio Management and Stock Dashboard Tool
 
 This project consists of a portfolio management tool and a stock dashboard application. The portfolio management tool allows users to track their stock investments, while the stock dashboard provides detailed insights and analysis for individual stocks, including historical price data, financial metrics, and news.
